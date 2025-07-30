@@ -15,6 +15,7 @@ export function AddSelectedMK(
         (item) => item.Jadwal.KodeJam === selectedMk.Jadwal.KodeJam &&
             item.Jadwal.KodeHari === selectedMk.Jadwal.KodeHari,
     );
+    notifications.cleanQueue()
     if (!isAlreadySelected && !hasScheduleConflict) {
         dataSelectedMK.push(selectedMk);
         localStorage.setItem(

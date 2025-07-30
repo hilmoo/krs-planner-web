@@ -63,7 +63,7 @@ function TableBottom({ trigger }: tableProps) {
   const rows = filteredData.map((data) => (
     <Table.Tr key={data.No}>
       <Table.Td>
-        {data.MK.Nama}
+        {data.MK.Nama} ({data.MK.Kode})
         <br />
         Kelas: {data.MK.Kelas}
       </Table.Td>
