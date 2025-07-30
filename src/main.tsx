@@ -10,7 +10,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MantineProvider forceColorScheme="dark">
       <App />
-      <Notifications />
+      <Notifications limit={1} />
     </MantineProvider>
   </StrictMode>
 );
