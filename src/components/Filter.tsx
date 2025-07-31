@@ -46,16 +46,11 @@ function Filter() {
           <CloseButton
             aria-label="Clear input"
             onClick={() => setLocalSearch("")}
+            style={{ display: localSearch ? undefined : "none" }}
           />
         }
       />
-      <Popover
-        width={300}
-        position="bottom"
-        withArrow
-        shadow="md"
-        closeOnClickOutside={false}
-      >
+      <Popover width={300} position="bottom" withArrow shadow="md">
         <Popover.Target>
           <Button leftSection={<MaterialSymbolsFilterAlt />}>
             Filter Mata Kuliah
