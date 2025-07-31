@@ -76,7 +76,12 @@ export async function handleImportDataMk(data: File): Promise<boolean> {
                             SKS: parseInt(item.SKS),
                             Sem: item.Semester === "" ? 0 : parseInt(item.Semester),
                             Prasyarat: item.Prasyarat,
-                            Dosen: item.Dosen ? [item.Dosen.trim()] : [],
+                            Dosen: item.Dosen ?
+                                item.Dosen
+                                    .split(/(?=\d+\.)/)
+                                    .map(d => d.replace(/^\d+\.\s*/, '').trim())
+                                    .filter(d => d.length > 0)
+                                : [],
                             Jadwal: jadwal
                         };
                     });
