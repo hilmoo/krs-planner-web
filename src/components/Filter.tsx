@@ -88,10 +88,10 @@ function Filter() {
             label="Filter kuliah berdasarkan jam"
             placeholder="Pilih Jam"
             data={[
-              { value: "1", label: "07:00 - 09:30" },
-              { value: "2", label: "09:30 - 12:00" },
-              { value: "3", label: "13:00 - 15:30" },
-              { value: "4", label: "15:30 - 17:00" },
+              { value: "07:00-09:30", label: "07:00 - 09:30" },
+              { value: "09:30-12:00", label: "09:30 - 12:00" },
+              { value: "13:00-15:30", label: "13:00 - 15:30" },
+              { value: "15:30-18:00", label: "15:30 - 18:00" },
             ]}
             value={filHour}
             onChange={setFilHour}

@@ -7,7 +7,6 @@ interface dataMK {
 interface dataJadwal {
   Hari: string;
   Jam: string;
-  KodeJam: number;
   KodeHari: number;
 }
 

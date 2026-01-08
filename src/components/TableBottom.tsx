@@ -10,6 +10,31 @@ type tableProps = {
   trigger: () => void;
 };
 
+function parseTime(timeStr: string): number {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+function hasTimeOverlap(time1: string, time2: string): boolean {
+  if (!time1 || !time2 || time1 === "" || time2 === "") {
+    return false;
+  }
+
+  const [start1Str, end1Str] = time1.split("-").map((s) => s.trim());
+  const [start2Str, end2Str] = time2.split("-").map((s) => s.trim());
+
+  if (!start1Str || !end1Str || !start2Str || !end2Str) {
+    return false;
+  }
+
+  const start1 = parseTime(start1Str);
+  const end1 = parseTime(end1Str);
+  const start2 = parseTime(start2Str);
+  const end2 = parseTime(end2Str);
+
+  return start1 < end2 && start2 < end1;
+}
+
 function TableBottom({ trigger }: tableProps) {
   const data: jsonDataClear[] = useMemo(
     () => JSON.parse(localStorage.getItem("dataMK") || "[]"),
@@ -39,8 +64,9 @@ function TableBottom({ trigger }: tableProps) {
     }
 
     if (filHour) {
-      const hourValue = parseInt(filHour);
-      results = results.filter((item) => item.Jadwal.KodeJam === hourValue);
+      results = results.filter((item) =>
+        hasTimeOverlap(item.Jadwal.Jam, filHour)
+      );
     }
 
     if (search.trim()) {
@@ -78,7 +104,7 @@ function TableBottom({ trigger }: tableProps) {
         ))}
       </Table.Td>
       <Table.Td>
-        {data.Jadwal.KodeJam !== 0 && `${data.Jadwal.Hari}, ${data.Jadwal.Jam}`}
+        {data.Jadwal.Jam !== "" && `${data.Jadwal.Hari}, ${data.Jadwal.Jam}`}
       </Table.Td>
       <Table.Td>
         <Tooltip label="Tambah ke daftar KRS">
@@ -95,7 +121,7 @@ function TableBottom({ trigger }: tableProps) {
   ));
 
   return (
-    <ScrollArea h={400}>
+    <ScrollArea h={400} type="always">
       <Table.ScrollContainer minWidth={900}>
         <Table striped highlightOnHover withTableBorder>
           <Table.Thead>

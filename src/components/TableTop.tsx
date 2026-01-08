@@ -1,9 +1,7 @@
 import { Table, UnstyledButton, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { jsonDataClear } from "../types/krs";
 import { useForceUpdate } from "@mantine/hooks";
-
-const Jadwal = ["07:00-09:30", "09:30-12:00", "13:00-15:00", "15:30-18:00"];
 
 function getAllSelectedMK(): jsonDataClear[] {
   const data = localStorage.getItem("dataSelectedMK") || "[]";
@@ -12,17 +10,15 @@ function getAllSelectedMK(): jsonDataClear[] {
 
 function removeSelectedMK(
   kodeHari: number,
-  kodeJam: number,
+  jamSlot: string,
   courseCode?: string
 ) {
   const data = getAllSelectedMK();
   const updatedData = data.filter((item) => {
-    if (kodeHari === 0 && kodeJam === 0 && courseCode) {
+    if (kodeHari === 0 && jamSlot === "" && courseCode) {
       return item.MK.Kode !== courseCode;
     }
-    return !(
-      item.Jadwal.KodeHari === kodeHari && item.Jadwal.KodeJam === kodeJam
-    );
+    return !(item.Jadwal.KodeHari === kodeHari && item.Jadwal.Jam === jamSlot);
   });
   localStorage.setItem("dataSelectedMK", JSON.stringify(updatedData));
 }
@@ -30,24 +26,40 @@ function removeSelectedMK(
 function findCourseBySlot(
   selectedData: jsonDataClear[],
   kodeHari: number,
-  kodeJam: number
+  jamSlot: string
 ) {
   return selectedData.find(
-    (item) =>
-      item.Jadwal.KodeHari === kodeHari && item.Jadwal.KodeJam === kodeJam
+    (item) => item.Jadwal.KodeHari === kodeHari && item.Jadwal.Jam === jamSlot
   );
 }
 
 function getSpecialCourses(selectedData: jsonDataClear[]) {
   return selectedData.filter(
-    (item) => item.Jadwal.KodeHari === 0 && item.Jadwal.KodeJam === 0
+    (item) => item.Jadwal.KodeHari === 0 && item.Jadwal.Jam === ""
   );
 }
 
 function getScheduledCourses(selectedData: jsonDataClear[]) {
   return selectedData.filter(
-    (item) => !(item.Jadwal.KodeHari === 0 && item.Jadwal.KodeJam === 0)
+    (item) => !(item.Jadwal.KodeHari === 0 && item.Jadwal.Jam === "")
   );
+}
+
+function getUniqueTimeSlots(selectedData: jsonDataClear[]): string[] {
+  const scheduledCourses = getScheduledCourses(selectedData);
+  const timeSlots = new Set<string>();
+
+  scheduledCourses.forEach((course) => {
+    if (course.Jadwal.Jam) {
+      timeSlots.add(course.Jadwal.Jam);
+    }
+  });
+
+  return Array.from(timeSlots).sort((a, b) => {
+    const timeA = a.split("-")[0]?.trim() || "";
+    const timeB = b.split("-")[0]?.trim() || "";
+    return timeA.localeCompare(timeB);
+  });
 }
 
 function getCourseDisplay(course: jsonDataClear | undefined) {
@@ -68,44 +80,39 @@ export function TableTop({ rerender }: TableTopProps) {
   const [totalSKS, setTotalSKS] = useState(0);
   const forceUpdate = useForceUpdate();
 
-  function getSKS() {
-    const payload = getAllSelectedMK();
-    return sksView(payload);
-  }
-
-  function fetchData() {
+  const fetchData = useCallback(() => {
     const result = getAllSelectedMK();
     setUpdatedData(result);
-    const resultsks = getSKS();
-    setTotalSKS(resultsks);
-  }
+    setTotalSKS(sksView(result));
+  }, []);
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rerender]);
+  }, [rerender, fetchData]);
 
   function handleRemove(
     kodeHari: number,
-    kodeJam: number,
+    jamSlot: string,
     courseCode?: string
   ) {
-    removeSelectedMK(kodeHari, kodeJam, courseCode);
+    removeSelectedMK(kodeHari, jamSlot, courseCode);
     fetchData();
     forceUpdate();
   }
 
-  const rows = [1, 2, 3, 4].map((kodeJam) => (
-    <Table.Tr key={kodeJam} h={50}>
-      <Table.Td>{Jadwal[kodeJam - 1]}</Table.Td>
+  const timeSlots = getUniqueTimeSlots(updatedData);
+
+  const rows = timeSlots.map((jamSlot) => (
+    <Table.Tr key={jamSlot} h={50}>
+      <Table.Td>{jamSlot}</Table.Td>
       {[1, 2, 3, 4, 5, 6].map((kodeHari) => {
         const scheduledCourses = getScheduledCourses(updatedData);
-        const course = findCourseBySlot(scheduledCourses, kodeHari, kodeJam);
+        const course = findCourseBySlot(scheduledCourses, kodeHari, jamSlot);
         const displayText = getCourseDisplay(course);
 
         return (
           <Table.Td key={kodeHari}>
-            <UnstyledButton onClick={() => handleRemove(kodeHari, kodeJam)}>
+            <UnstyledButton onClick={() => handleRemove(kodeHari, jamSlot)}>
               {displayText}
             </UnstyledButton>
           </Table.Td>
@@ -137,7 +144,7 @@ export function TableTop({ rerender }: TableTopProps) {
 
       {specialCourses.map((course, index) => (
         <div key={index}>
-          <UnstyledButton onClick={() => handleRemove(0, 0, course.MK.Kode)}>
+          <UnstyledButton onClick={() => handleRemove(0, "", course.MK.Kode)}>
             <Text fw={700}>
               {getCourseDisplay(course)} - {course.SKS} SKS
             </Text>
