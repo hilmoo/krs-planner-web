@@ -18,7 +18,7 @@ export function Tutorial() {
       </Title>
       <Stack gap="xs" pt={"xs"} pl={"md"}>
         <Text>
-          1. Buka link SIMASTER
+          1. Buka link SIMASTER{" "}
           <Text
             component="a"
             href="https://simaster.ugm.ac.id/akademik/mhs_kelas_ambil/view"
@@ -27,7 +27,7 @@ export function Tutorial() {
           >
             Mata Kuliah Ditawarkan
           </Text>
-          (Login di SIMASTER terlebih dahulu)
+          {" "}(Login di SIMASTER terlebih dahulu)
         </Text>
         <Text>
           2. Buka console browser
