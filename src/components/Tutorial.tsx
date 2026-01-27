@@ -14,11 +14,11 @@ export function Tutorial() {
   return (
     <>
       <Title order={3}>
-        Tutorial mendapatkan file json mata kuliah dari SIMASTER:{" "}
+        Tutorial mendapatkan file json mata kuliah dari SIMASTER:
       </Title>
       <Stack gap="xs" pt={"xs"} pl={"md"}>
         <Text>
-          1. Buka link SIMASTER{" "}
+          1. Buka link SIMASTER
           <Text
             component="a"
             href="https://simaster.ugm.ac.id/akademik/mhs_kelas_ambil/view"
@@ -26,7 +26,7 @@ export function Tutorial() {
             td="underline"
           >
             Mata Kuliah Ditawarkan
-          </Text>{" "}
+          </Text>
           (Login di SIMASTER terlebih dahulu)
         </Text>
         <Text>
@@ -35,7 +35,7 @@ export function Tutorial() {
             <div dir="ltr">
               <strong>Chrome / Edge / Opera</strong>
               <div>
-                Windows / Linux: <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> +{" "}
+                Windows / Linux: <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> +
                 <Kbd>J</Kbd>
               </div>
               <div>
@@ -46,7 +46,7 @@ export function Tutorial() {
             <div dir="ltr">
               <strong>Firefox</strong>
               <div>
-                Windows / Linux: <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> +{" "}
+                Windows / Linux: <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> +
                 <Kbd>K</Kbd>
               </div>
               <div>
