@@ -31,12 +31,35 @@ export function Tutorial() {
         </Text>
         <Text>
           2. Buka console browser
-          <Stack pl={"md"} gap={0}>
+          <Stack pl="md" gap="xs">
             <div dir="ltr">
-              Windows: <Kbd>Shift</Kbd> + <Kbd>CTRL</Kbd> + <Kbd>J</Kbd>
+              <strong>Chrome / Edge / Opera</strong>
+              <div>
+                Windows / Linux: <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> +{" "}
+                <Kbd>J</Kbd>
+              </div>
+              <div>
+                Mac: <Kbd>⌘</Kbd> + <Kbd>Option</Kbd> + <Kbd>J</Kbd>
+              </div>
             </div>
+
             <div dir="ltr">
-              Mac: <Kbd>Option</Kbd> + <Kbd>⌘</Kbd> + <Kbd>J</Kbd>
+              <strong>Firefox</strong>
+              <div>
+                Windows / Linux: <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> +{" "}
+                <Kbd>K</Kbd>
+              </div>
+              <div>
+                Mac: <Kbd>⌘</Kbd> + <Kbd>Option</Kbd> + <Kbd>K</Kbd>
+              </div>
+            </div>
+
+            <div dir="ltr">
+              <strong>Safari</strong>
+              <div>
+                Mac: <Kbd>⌘</Kbd> + <Kbd>Option</Kbd> + <Kbd>C</Kbd>
+              </div>
+              <small>(Aktifkan menu “Develop” terlebih dahulu)</small>
             </div>
           </Stack>
         </Text>
