@@ -20,7 +20,9 @@ function dumpMataKuliah(filename = "MK_dump.json") {
     });
   });
 
-  const jsonStr = JSON.stringify({ mataKuliah }, null, 2);
+  var myObj = { mataKuliah };
+
+  const jsonStr = JSON.stringify(myObj, null, 2);
   const blob = new Blob([jsonStr], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
