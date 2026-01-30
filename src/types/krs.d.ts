@@ -11,7 +11,7 @@ interface dataJadwal {
 }
 
 export interface jsonDataClear {
-  No: number;
+  No: string;
   MK: dataMK;
   SKS: number;
   Sem: number;
