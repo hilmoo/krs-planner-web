@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export function Tutorial() {
   const [jsCode, setJsCode] = useState("");
 
+  // * Load the script from a public URL to prevent string-escaping issues
   useEffect(() => {
     fetch("/dumpMK.js")
       .then((res) => res.text())
